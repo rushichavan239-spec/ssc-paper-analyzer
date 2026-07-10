@@ -6,7 +6,7 @@ st.set_page_config(page_title="SSC AI Paper Analyzer", page_icon="📚", layout=
 st.title("📚 १० वी महाराष्ट्र बोर्ड - AI सर्व-विषय प्रश्नपत्रिका विश्लेषक")
 st.write("मागील वर्षांच्या कोणत्याही विषयाच्या प्रश्नपत्रिका (PDF) एकत्र अपलोड करा आणि जेमिनी AI कडून विश्लेषण मिळवा!")
 
-MY_API_KEY = "AQ.Ab8RN6J5N2HpehyTUKcK57FhXSq1omH1z62WiCV6DVBu29jkDg"
+MY_API_KEY = st.secrets["GEMINI_API_KEY"]
 client = genai.Client(api_key=MY_API_KEY)
 
 uploaded_files = st.file_uploader("तुमच्या प्रश्नपत्रिकांच्या PDF फाईल्स इथे अपलोड करा", type=["pdf"], accept_multiple_files=True)
