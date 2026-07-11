@@ -53,7 +53,7 @@ with col2:
 
 # ३. विज्ञान पेपर डाऊनलोड
 with col3:
-    science_path = "papers/science.pdf"
+    science_path = "papers/2026.pdf"
     if os.path.exists(science_path):
         with open(science_path, "rb") as file:
             st.download_button(
