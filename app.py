@@ -73,7 +73,7 @@ st.markdown("""
         font-weight: 600;
     }
 </style>
-""", unsafe_allow_index=True)
+""", unsafe_allow_html=True)
 
 # २. मुख्य युझर इंटरफेस (UI)
 st.markdown('<div class="main-title">📚 १० वी महाराष्ट्र बोर्ड</div>', unsafe_allow_html=True)
@@ -97,7 +97,7 @@ st.markdown("""
     </div>
     <div class="vp-item">
         <span class="vp-icon">📥</span>
-        <span class="vp-text"><strong>वन-क्लिक डायरेक्ट डाऊनलोड:</strong> कोणतीही जाहिरात किंवा गुगल ड्राईव्हच्या त्रासाशिवाय वर्षानुसार अधिकृत पेपर्स थेट तुमच्या गॅलरीत डाऊनलोड करा.</span>
+        <span class="vp-text"><strong>One-Click डायरेक्ट डाऊनलोड:</strong> कोणतीही जाहिरात किंवा गुगल ड्राईव्हच्या त्रासाशिवाय वर्षानुसार अधिकृत पेपर्स थेट तुमच्या गॅलरीत डाऊनलोड करा.</span>
     </div>
 </div>
 """, unsafe_allow_html=True)
