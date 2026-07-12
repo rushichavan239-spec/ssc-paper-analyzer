@@ -3,36 +3,118 @@ import google.genai as genai
 from google.genai import types
 import os
 
-# १. वेबसाईटचे बेसिक सेटिंग्ज
-st.set_page_config(page_title="SSC AI Paper Analyzer", page_icon="📚", layout="centered")
+# १. वेबसाईटचे प्रीमियम सेटिंग्ज
+st.set_page_config(
+    page_title="SSC AI Paper Analyzer", 
+    page_icon="📚", 
+    layout="centered",
+    initial_sidebar_state="collapsed"
+)
 
-# २. मुख्य शीर्षक आणि आकर्षक टॅगलाईन
-st.title("📚 १० वी महाराष्ट्र बोर्ड - AI सर्व-विषय प्रश्नपत्रिका विश्लेषक")
-st.markdown("### 🚀 **स्मार्ट अभ्यास करा, गुणांचा आलेख वाढवा!**")
+# --- प्रिमियम एज्युकेशनल डिझाईन आणि टायपोग्राफी (Custom CSS) ---
+st.markdown("""
+<style>
+    /* मुख्य बॅकग्राउंड आणि फॉन्ट सुधारणा */
+    .main .block-container {
+        padding-top: 2rem;
+        padding-bottom: 2rem;
+    }
+    
+    /* मुख्य टायटल डिझाईन */
+    .main-title {
+        font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+        color: #1E3A8A;
+        font-size: 42px;
+        font-weight: 800;
+        text-align: center;
+        margin-bottom: 5px;
+        line-height: 1.2;
+    }
+    .sub-title {
+        color: #3B82F6;
+        font-size: 20px;
+        font-weight: 600;
+        text-align: center;
+        margin-bottom: 30px;
+    }
+    
+    /* व्हॅल्यू प्रॉपोझिशन (Value Proposition Box) ची प्रिमियम टायपोग्राफी */
+    .vp-container {
+        background-color: #F8FAFC;
+        border-left: 5px solid #3B82F6;
+        padding: 25px;
+        border-radius: 12px;
+        box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03);
+        margin-bottom: 35px;
+    }
+    .vp-header {
+        color: #0F172A;
+        font-size: 22px;
+        font-weight: 700;
+        margin-bottom: 15px;
+        border-bottom: 1px solid #E2E8F0;
+        padding-bottom: 10px;
+    }
+    .vp-item {
+        font-size: 16px;
+        color: #334155;
+        line-height: 1.6;
+        margin-bottom: 12px;
+        display: flex;
+        align-items: flex-start;
+    }
+    .vp-icon {
+        margin-right: 12px;
+        font-size: 18px;
+        margin-top: 2px;
+    }
+    .vp-text strong {
+        color: #1E3A8A;
+        font-weight: 600;
+    }
+</style>
+""", unsafe_allow_index=True)
 
-# ३. विद्यार्थ्यांसाठी सोप्या भाषेत वेबसाईटचे महत्त्व (Value Proposition)
-st.info("""
-🎯 **हे AI टूल तुमच्यासाठी काय करू शकते?**
-* ⏱️ **वेळेची १००% बचत:** मागील वर्षांचे पेपर्स शोधण्यात आणि ते वाचण्यात वेळ घालवण्याची गरज नाही. सर्व पेपर्स एकाच ठिकाणी!
-* 🧠 **महत्त्वाचे प्रश्न एकाクリックवर:** बोर्ड परीक्षेत कोणते प्रश्न वारंवार विचारले जातात, हे आमचे **Advanced AI Agent** तुम्हाला शोधून देईल.
-* 📈 **गुण वाढवण्याची तज्ज्ञ रणनीती:** कोणत्या प्रकरणाला किती वेटेज आहे आणि उत्तर कसे लिहायचे, याचे अचूक मार्गदर्शन थेट मराठीत मिळवा.
-* 📂 **थेट डाऊनलोड:** वर्षानुसार अधिकृत प्रश्नपत्रिका थेट तुमच्या मोबाईलमध्ये डाऊनलोड करा.
-""")
+# २. मुख्य युझर इंटरफेस (UI)
+st.markdown('<div class="main-title">📚 १० वी महाराष्ट्र बोर्ड</div>', unsafe_allow_html=True)
+st.markdown('<div class="sub-title">AI सर्व-विषय प्रश्नपत्रिका विश्लेषक</div>', unsafe_allow_html=True)
 
-st.write("👉 खालील विभागातून तुमचे पेपर्स डाऊनलोड करा किंवा तुमचे स्वतःचे पेपर्स अपलोड करून **महा-विश्लेषण** सुरू करा!")
+# ३. प्रिमियम टायपोग्राफीसह व्हॅल्यू प्रॉपोझिशन कॉलम
+st.markdown("""
+<div class="vp-container">
+    <div class="vp-header">🎯 हे Advanced AI टूल तुमच्या अभ्यासाचा पॅटर्न कसे बदलेल?</div>
+    <div class="vp-item">
+        <span class="vp-icon">⚡</span>
+        <span class="vp-text"><strong>वेळेची १००% बचत:</strong> इंटरनेटवर मागील वर्षांचे पेपर्स शोधण्यात वेळ घालवणे थांबवा. सर्व अधिकृत पेपर्स आता एकाच ठिकाणी उपलब्ध आहेत.</span>
+    </div>
+    <div class="vp-item">
+        <span class="vp-icon">🧠</span>
+        <span class="vp-text"><strong>Imp प्रश्नांचा शोध:</strong> बोर्ड परीक्षेत कोणते प्रश्न वारंवार रिपीट होतात, हे आमचे ऍडव्हान्स जेमिनी AI मॉडेल एका सेकंदात अचूक शोधून देते.</span>
+    </div>
+    <div class="vp-item">
+        <span class="vp-icon">📈</span>
+        <span class="vp-text"><strong>तज्ज्ञ रणनीती व गुणविभागणी:</strong> कोणत्या धड्याला किती वेटेज आहे आणि टॉपर मुलांसारखे उत्तर कसे लिहायचे, याचे सखोल मार्गदर्शन थेट मातृभाषेत (मराठीत) मिळवा.</span>
+    </div>
+    <div class="vp-item">
+        <span class="vp-icon">📥</span>
+        <span class="vp-text"><strong>वन-क्लिक डायरेक्ट डाऊनलोड:</strong> कोणतीही जाहिरात किंवा गुगल ड्राईव्हच्या त्रासाशिवाय वर्षानुसार अधिकृत पेपर्स थेट तुमच्या गॅलरीत डाऊनलोड करा.</span>
+    </div>
+</div>
+""", unsafe_allow_html=True)
 
-# स्ट्रीमलिटच्या सुरक्षित तिजोरीतून जेमिनी API की मिळवणे
+st.write("👇 खालील विभागातून प्रश्नपत्रिका डाऊनलोड करा किंवा तुमच्या फाईल्स अपलोड करून **महा-विश्लेषण** सुरू करा:")
+
+# जेमिनी API की सुरक्षितपणे मिळवणे
 MY_API_KEY = st.secrets["GEMINI_API_KEY"]
 client = genai.Client(api_key=MY_API_KEY)
 
 # =========================================================================
-# 📥 वर्षानुसार सर्व-विषय पीडीएफ डाऊनलोड विभाग (All 6 Subjects Download Section)
+# 📥 वर्षानुसार सर्व-विषय पीडीएफ डाऊनलोड विभाग (All 6 Subjects)
 # =========================================================================
 st.markdown("---")
-st.subheader("📥 मागील वर्षांच्या प्रश्नपत्रिका वर्षानुसार डाऊनलोड करा")
-st.write("विषयावर क्लिक करून तुम्हाला हवे असलेल्या वर्षाचा पेपर थेट डाऊनलोड करा:")
+st.subheader("📥 अधिकृत प्रश्नपत्रिका वर्षानुसार डाऊनलोड करा")
 
-# ----------------- विषय १: मराठी -----------------
+# विषय १: मराठी
 with st.expander("📁 १. मराठी प्रश्नपत्रिका (Marathi Papers)", expanded=False):
     col1, col2 = st.columns(2)
     with col1:
@@ -45,20 +127,20 @@ with st.expander("📁 १. मराठी प्रश्नपत्रिक
     with col2:
         st.caption("⏳ इतर वर्षांचे पेपर्स लवकरच येथे येतील...")
 
-# ----------------- विषय २: इंग्रजी -----------------
+# विषय २: इंग्रजी
 with st.expander("📁 २. इंग्रजी प्रश्नपत्रिका (English Papers)", expanded=False):
     col1, col2 = st.columns(2)
     with col1:
         p_english_2026 = "papers/english_2026.pdf"
         if os.path.exists(p_english_2026):
             with open(p_english_2026, "rb") as file:
-                st.download_button("📄 २०२६ इंग्रजी पेपर", data=file, file_name="English_2026.pdf", mime="application/pdf", use_container_width=True)
+                st.download_button("📄 २०२६ इंग्रजी paper", data=file, file_name="English_2026.pdf", mime="application/pdf", use_container_width=True)
         else:
             st.caption("⏳ २०२६ पेपर लवकरच येईल...")
     with col2:
         st.caption("⏳ इतर वर्षांचे पेपर्स लवकरच येथे येतील...")
 
-# ----------------- विषय ३: हिंदी -----------------
+# विषय ३: हिंदी
 with st.expander("📁 ३. हिंदी प्रश्नपत्रिका (Hindi Papers)", expanded=False):
     col1, col2 = st.columns(2)
     with col1:
@@ -71,7 +153,7 @@ with st.expander("📁 ३. हिंदी प्रश्नपत्रिक
     with col2:
         st.caption("⏳ इतर वर्षांचे पेपर्स लवकरच येथे येतील...")
 
-# ----------------- विषय ४: गणित (भाग १ आणि २) -----------------
+# विषय ४: गणित (भाग १ आणि २)
 with st.expander("📁 ४. गणित प्रश्नपत्रिका - भाग १ व २ (Maths Papers)", expanded=False):
     col1, col2 = st.columns(2)
     with col1:
@@ -89,7 +171,7 @@ with st.expander("📁 ४. गणित प्रश्नपत्रिका
         else:
             st.caption("⏳ २०२६ गणित भाग-२ लवकरच येईल...")
 
-# ----------------- विषय ५: विज्ञान (भाग १ आणि २) -----------------
+# विषय ५: विज्ञान (भाग १ आणि २)
 with st.expander("📁 ५. विज्ञान प्रश्नपत्रिका - भाग १ व २ (Science Papers)", expanded=False):
     col1, col2 = st.columns(2)
     with col1:
@@ -100,7 +182,6 @@ with st.expander("📁 ५. विज्ञान प्रश्नपत्र
         else:
             st.caption("⏳ २०२६ विज्ञान भाग-१ लवकरच येईल...")
     with col2:
-        # २०२६ चा मुख्य विज्ञान पेपर पाथ papers/2026.pdf नुसार
         p_science_2026 = "papers/2026.pdf"
         if os.path.exists(p_science_2026):
             with open(p_science_2026, "rb") as file:
@@ -108,7 +189,7 @@ with st.expander("📁 ५. विज्ञान प्रश्नपत्र
         else:
             st.caption("⏳ २०२६ विज्ञान भाग-२ लवकरच येईल...")
 
-# ----------------- विषय ६: समाजशास्त्र -----------------
+# विषय ६: समाजशास्त्र
 with st.expander("📁 ६. समाजशास्त्र प्रश्नपत्रिका (Social Science Papers)", expanded=False):
     col1, col2 = st.columns(2)
     with col1:
@@ -126,13 +207,14 @@ st.markdown("---")
 # =========================================================================
 # 📊 AI विश्लेषण विभाग
 # =========================================================================
-uploaded_files = st.file_uploader("विश्लेषण करण्यासाठी प्रश्नपत्रिकांच्या PDF फाईल्स इथे अपलोड करा", type=["pdf"], accept_multiple_files=True)
+st.subheader("📊 AI प्रश्नपत्रिका महा-विश्लेषण")
+uploaded_files = st.file_uploader("विश्लेषण करण्यासाठी प्रश्नपत्रिकांच्या PDF फाईल्स इथे अपलोड करा (स्कॅन कॉपी देखील चालेल)", type=["pdf"], accept_multiple_files=True)
 
-if st.button("📊 महा-विश्लेषण सुरू करा"):
+if st.button("📊 महा-विश्लेषण सुरू करा", use_container_width=True):
     if not uploaded_files:
         st.warning("⚠️ कृपया आधी किमान १ किंवा २ PDF फाईल्स अपलोड करा!")
     else:
-        with st.spinner("🧠 AI एजंट सर्व स्कॅन पेपर्स आणि इमेजेसचे विश्लेषण करत आहे..."):
+        with st.spinner("🧠 आमचे AI एजंट सर्व पेपर्स वाचून सखोल अहवाल तयार करत आहे..."):
             contents_payload = []
             
             for uploaded_file in uploaded_files:
@@ -156,6 +238,6 @@ if st.button("📊 महा-विश्लेषण सुरू करा"):
                 contents=contents_payload
             )
             
-            st.success("🎉 विश्लेषण पूर्ण झाले!")
-            st.markdown("### 🌟 AI एजंटचे महा-विश्लेषण 🌟")
+            st.success("🎉 विश्लेषण यशस्वीरीत्या पूर्ण झाले!")
+            st.markdown("### 🌟 AI एजंटचे महा-विश्लेषण अहवाल 🌟")
             st.write(response.text)
