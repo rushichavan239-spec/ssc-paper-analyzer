@@ -2,7 +2,13 @@ import streamlit as st
 import google.genai as genai
 from google.genai import types
 import os
-import streamlit_analytics  # 📥 ट्रॅकिंग टूल इम्पोर्ट केले
+import streamlit_analytics  # ट्रॅकिंग टूल
+
+# 🛠️ Python 3.14 आणि नवीन Streamlit साठी एरर फिक्सर कोड (सुसंगतता मॅपिंग)
+if not hasattr(st, "experimental_get_query_params"):
+    st.experimental_get_query_params = lambda: st.query_params
+if not hasattr(st, "experimental_set_query_params"):
+    st.experimental_set_query_params = lambda **kwargs: [st.query_params.update({k: v}) for k, v in kwargs.items()]
 
 # १. वेबसाईटचे प्रीमियम सेटिंग्ज
 st.set_page_config(
@@ -134,7 +140,7 @@ with streamlit_analytics.track():
     <div class="vp-card">
         <div class="vp-title">🎯 हे टूल तुमच्या अभ्यासाची रणनीती कशी बदलेल?</div>
         <ul class="vp-list">
-            <li class="vp-list-item"><strong>वेळेची १००% बचत:</strong> इंटरनेटवर विखुरलेले पेपर्स शोधण्यात वेळ वाया घालवू नका. सर्व अधिकृत पेपर्स आता एकाच ठिकाणी स्ट्रक्चर्ड फॉरमॅटमध्ये उपलब्ध आहेत.</li>
+            <li class="vp-list-item"><strong>веळेची १००% बचत:</strong> इंटरनेटवर विखुरलेले पेपर्स शोधण्यात वेळ वाया घालवू नका. सर्व अधिकृत पेपर्स आता एकाच ठिकाणी स्ट्रक्चर्ड फॉरमॅटमध्ये उपलब्ध आहेत.</li>
             <li class="vp-list-item"><strong>Imp प्रश्नांचे अचूक वर्गीकरण:</strong> बोर्ड परीक्षेत वारंवार रिपीट होणारे प्रश्न आमचे ऍडव्हान्स जेमिनी AI मॉडेल एका क्लिकवर अचूक शोधून देते.</li>
             <li class="vp-list-item"><strong>प्रकरणांनुसार गुणविभागणी:</strong> कोणत्या धड्यावर किती गुणांचे प्रश्न येतात आणि उत्तर लिहिण्याची योग्य पद्धत काय, याचे सखोल विश्लेषण थेट मराठीत मिळवा.</li>
             <li class="vp-list-item"><strong>जाहिरातमुक्त डायरेक्ट डाऊनलोड:</strong> कोणत्याही गुगल ड्राईव्ह किंवा पॉप-अप जाहिरातींशिवाय वर्षानुसार प्रश्नपत्रिका थेट डिव्हाइसवर डाऊनलोड करा.</li>
