@@ -3,7 +3,7 @@ import google.genai as genai
 from google.genai import types
 import os
 
-# १. वेबसाईटचे जागतिक दर्जाचे प्रीमियम सेटिंग्ज
+# १. वेबसाईटचे प्रीमियम सेटिंग्ज
 st.set_page_config(
     page_title="SSC AI Paper Analyzer", 
     page_icon="📚", 
@@ -11,24 +11,22 @@ st.set_page_config(
     initial_sidebar_state="collapsed"
 )
 
-# --- प्रिमियम मॉडर्न एज्युकेशनल डिझाईन (Professional Custom CSS) ---
+# --- डार्क आणि लाईट थीम दोन्हीसाठी युनिव्हर्सल प्रिमियम CSS ---
 st.markdown("""
 <style>
-    /* गुगल फॉन्ट्स मधून प्रिमियम Inter फॉन्ट इम्पोर्ट करणे */
     @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
     
-    /* ग्लोबल फिक्स आणि बॅकग्राउंड */
     .main .block-container {
         font-family: 'Inter', -apple-system, sans-serif;
-        padding-top: 3rem;
-        padding-bottom: 3rem;
+        padding-top: 2.5rem;
+        padding-bottom: 2.5rem;
         max-width: 720px;
     }
     
-    /* मुख्य टायटल टायपोग्राफी */
+    /* मुख्य टायटल - डार्क थीमनुसार बदलणारा रंग */
     .brand-badge {
-        background-color: #EFF6FF;
-        color: #2563EB;
+        background-color: rgba(37, 99, 235, 0.1);
+        color: #3B82F6;
         font-size: 13px;
         font-weight: 700;
         text-transform: uppercase;
@@ -38,38 +36,41 @@ st.markdown("""
         display: inline-block;
         margin-bottom: 15px;
     }
+    
+    /* मुख्य हेडर्स - डार्क आणि लाईट दोन्हीमध्ये चालणारे न्यूट्रल कलर्स */
     .main-title {
-        color: #0F172A;
-        font-size: 40px;
+        color: #F8FAFC; /* डार्क मोडसाठी सुरक्षित पांढरा */
+        font-size: 38px;
         font-weight: 800;
         letter-spacing: -0.5px;
-        line-height: 1.15;
+        line-height: 1.2;
         margin-bottom: 8px;
+        text-align: center;
     }
     .sub-title {
-        color: #475569;
+        color: #94A3B8;
         font-size: 18px;
-        font-weight: 400;
+        font-weight: 500;
         line-height: 1.5;
         margin-bottom: 35px;
+        text-align: center;
     }
     
-    /* प्रिमियम व्हॅल्यू प्रॉपोझिशन कार्ड (Clean Modern Box) */
+    /* व्हॅल्यू कार्ड - जे डार्क बॅकग्राउंडवरही उठून दिसेल */
     .vp-card {
-        background: #FFFFFF;
-        border: 1px solid #E2E8F0;
-        padding: 28px;
+        background: rgba(30, 41, 59, 0.7); /* सेमी-ट्रान्सपरंट स्लेट */
+        border: 1px solid #334155;
+        padding: 26px;
         border-radius: 16px;
-        box-shadow: 0 4px 20px -2px rgba(15, 23, 42, 0.04);
-        margin-bottom: 40px;
+        box-shadow: 0 4px 30px rgba(0, 0, 0, 0.2);
+        margin-bottom: 35px;
+        backdrop-filter: blur(5px);
     }
     .vp-title {
-        color: #1E3A8A;
+        color: #60A5FA; /* फिकट चमकदार निळा - डार्क मोडमध्ये बेस्ट दिसतो */
         font-size: 20px;
         font-weight: 700;
-        margin-bottom: 20px;
-        display: flex;
-        align-items: center;
+        margin-bottom: 18px;
     }
     .vp-list {
         list-style: none;
@@ -78,7 +79,7 @@ st.markdown("""
     }
     .vp-list-item {
         font-size: 15px;
-        color: #475569;
+        color: #E2E8F0; /* वाचनीय फिकट करडा रंग */
         line-height: 1.6;
         margin-bottom: 14px;
         padding-left: 28px;
@@ -88,38 +89,47 @@ st.markdown("""
         content: "✓";
         position: absolute;
         left: 0;
-        color: #2563EB;
+        color: #60A5FA;
         font-weight: 700;
         font-size: 16px;
     }
     .vp-list-item strong {
-        color: #0F172A;
-        font-weight: 600;
+        color: #FFFFFF; /* महत्त्वाचे शब्द शुद्ध पांढऱ्या रंगात */
+        font-weight: 650;
     }
     
-    /* स्ट्रीमलिटच्या डीफॉल्ट घटकांना सुंदर बनवणे */
-    .stSelectbox, .stSlider, .stTextInput {
-        margin-bottom: 20px;
-    }
-    
-    /* सेक्शन्स मधील स्पेसिंग */
     .section-head {
-        color: #0F172A;
+        color: #F1F5F9;
         font-size: 22px;
         font-weight: 700;
-        margin-top: 25px;
+        margin-top: 30px;
         margin-bottom: 15px;
         letter-spacing: -0.3px;
+    }
+
+    /* जर युझरची सिस्टम लाईट मोडमध्ये असेल तर आपोआप खालील डिझाईन ऍक्टिव्हेट होईल */
+    @media (prefers-color-scheme: light) {
+        .main-title { color: #0F172A; }
+        .sub-title { color: #475569; }
+        .vp-card {
+            background: #FFFFFF;
+            border: 1px solid #E2E8F0;
+            box-shadow: 0 4px 20px -2px rgba(15, 23, 42, 0.04);
+        }
+        .vp-title { color: #1E3A8A; }
+        .vp-list-item { color: #475569; }
+        .vp-list-item strong { color: #0F172A; }
+        .section-head { color: #0F172A; }
     }
 </style>
 """, unsafe_allow_html=True)
 
 # २. मुख्य युझर इंटरफेस (Header UI)
 st.markdown('<center><div class="brand-badge">✨ Next-Gen AI Learning</div></center>', unsafe_allow_html=True)
-st.markdown('<div class="main-title"><center>१० वी महाराष्ट्र बोर्ड</center></div>', unsafe_allow_html=True)
-st.markdown('<div class="sub-title"><center>AI-संचलित सर्व-विषय प्रश्नपत्रिका विश्लेषक</center></div>', unsafe_allow_html=True)
+st.markdown('<div class="main-title">१० वी महाराष्ट्र बोर्ड</div>', unsafe_allow_html=True)
+st.markdown('<div class="sub-title">AI-संचलित सर्व-विषय प्रश्नपत्रिका विश्लेषक</div>', unsafe_allow_html=True)
 
-# ३. प्रिमियम व्हॅल्यू प्रॉपोझिशन कार्ड (UX Optimized Typography)
+# ३. प्रिमियम व्हॅल्यू प्रॉपोझिशन कार्ड
 st.markdown("""
 <div class="vp-card">
     <div class="vp-title">🎯 हे टूल तुमच्या अभ्यासाची रणनीती कशी बदलेल?</div>
@@ -139,7 +149,7 @@ MY_API_KEY = st.secrets["GEMINI_API_KEY"]
 client = genai.Client(api_key=MY_API_KEY)
 
 # =========================================================================
-# 📥 अधिकृत प्रश्नपत्रिका डाऊनलोड विभाग (All 6 Subjects Card Layout)
+# 📥 अधिकृत प्रश्नपत्रिका डाऊनलोड विभाग (All 6 Subjects)
 # =========================================================================
 st.markdown('<div class="section-head">📥 अधिकृत प्रश्नपत्रिका वर्षानुसार डाऊनलोड करा</div>', unsafe_allow_html=True)
 
@@ -232,7 +242,7 @@ with st.expander("📁 ६. समाजशास्त्र प्रश्न
         st.caption("⏳ इतर वर्षांचे पेपर्स लवकरच येतील...")
 
 # =========================================================================
-# 📊 AI विश्लेषण विभाग (Card Wrapper Style)
+# 📊 AI विश्लेषण विभाग
 # =========================================================================
 st.markdown('<div class="section-head">📊 AI प्रश्नपत्रिका महा-विश्लेषण</div>', unsafe_allow_html=True)
 uploaded_files = st.file_uploader("तुमच्या प्रश्नपत्रिकांच्या पीडीएफ (किंवा स्कॅन कॉपी) इथे अपलोड करा:", type=["pdf"], accept_multiple_files=True)
@@ -254,7 +264,7 @@ if st.button("📊 महा-विश्लेषण सुरू करा", u
             
             prompt = (
                 "तुम्ही महाराष्ट्र board चे दहावीचे तज्ज्ञ शिक्षक आहात. "
-                "दिलेल्या सर्व प्रश्नपत्रिकांच्या स्कॅन किंवा डिजिटल फाईल्स व्यवस्थित वाचा. "
+                "दिलेल्या सर्व प्रश्नपत्रिकांच्या स्कॅन किंवा digital फाईल्स व्यवस्थित वाचा. "
                 "या पेपर्सचा नेमका विषय ओळखून त्यातील महत्त्वाचे प्रश्न, प्रकरणांनुसार गुणविभागणी "
                 "आणि बोर्ड परीक्षेत जास्तीत जास्त गुण मिळवण्यासाठी कोणती रणनीती अवलंबावी, हे मराठीत सविस्तर सांगा."
             )
