@@ -13,59 +13,44 @@ MY_API_KEY = st.secrets["GEMINI_API_KEY"]
 client = genai.Client(api_key=MY_API_KEY)
 
 # =========================================================================
-# 📥 थेट पीडीएफ डाऊनलोड विभाग (Direct PDF Download Section)
+# 📥 वर्षानुसार पीडीएफ डाऊनलोड विभाग (Year-wise PDF Download Section)
 # =========================================================================
 st.markdown("---")
-st.subheader("📥 मागील वर्षांच्या प्रश्नपत्रिका थेट डाऊनलोड करा")
-st.write("खालील बटणावर क्लिक करून तुम्ही विषयानुसार पीडीएफ थेट तुमच्या डिव्हाइसवर डाऊनलोड करू शकता:")
+st.subheader("📥 मागील वर्षांच्या प्रश्नपत्रिका वर्षानुसार डाऊनलोड करा")
+st.write("तुम्हाला हव्या असलेल्या वर्षाच्या बटणावर क्लिक करून पीडीएफ थेट डाऊनलोड करा:")
 
-col1, col2, col3 = st.columns(3)
+# मराठी विषयासाठी एक सुंदर एक्सपँडर (Dropdown सारखा बॉक्स)
+with st.expander("📁 मराठी प्रश्नपत्रिका (Marathi Papers)", expanded=True):
+    col1, col2, col3 = st.columns(3)
+    
+    # २०२४ चा पेपर
+    with col1:
+        p_2024 = "papers/marathi_2024.pdf"
+        if os.path.exists(p_2024):
+            with open(p_2024, "rb") as file:
+                st.download_button("📄 २०२४ पेपर", data=file, file_name="Marathi_2024.pdf", mime="application/pdf", use_container_width=True)
+        else:
+            st.caption("⏳ २०२४ पेपर लवकरच येईल...")
 
-# १. मराठी पेपर डाऊनलोड
-with col1:
-    marathi_path = "papers/marathi.pdf"
-    if os.path.exists(marathi_path):
-        with open(marathi_path, "rb") as file:
-            st.download_button(
-                label="📁 मराठी पेपर",
-                data=file,
-                file_name="Marathi_SSC_Paper.pdf",
-                mime="application/pdf",
-                use_container_width=True
-            )
-    else:
-        st.caption("⏳ मराठी पीडीएफ लवकरच येत आहे...")
+    # २०२३ चा पेपर
+    with col2:
+        p_2023 = "papers/marathi_2023.pdf"
+        if os.path.exists(p_2023):
+            with open(p_2023, "rb") as file:
+                st.download_button("📄 २०२३ पेपर", data=file, file_name="Marathi_2023.pdf", mime="application/pdf", use_container_width=True)
+        else:
+            st.caption("⏳ २०२३ पेपर लवकरच येईल...")
 
-# २. गणित पेपर डाऊनलोड
-with col2:
-    maths_path = "papers/maths.pdf"
-    if os.path.exists(maths_path):
-        with open(maths_path, "rb") as file:
-            st.download_button(
-                label="📁 गणित पेपर",
-                data=file,
-                file_name="Maths_SSC_Paper.pdf",
-                mime="application/pdf",
-                use_container_width=True
-            )
-    else:
-        st.caption("⏳ गणित पीडीएफ लवकरच येत आहे...")
+    # २०२२ चा paper
+    with col3:
+        p_2022 = "papers/marathi_2022.pdf"
+        if os.path.exists(p_2022):
+            with open(p_2022, "rb") as file:
+                st.download_button("📄 २०२२ पेपर", data=file, file_name="Marathi_2022.pdf", mime="application/pdf", use_container_width=True)
+        else:
+            st.caption("⏳ २०२२ पेपर लवकरच येईल...")
 
-# ३. विज्ञान पेपर डाऊनलोड
-with col3:
-    science_path = "papers/2026.pdf"
-    if os.path.exists(science_path):
-        with open(science_path, "rb") as file:
-            st.download_button(
-                label="📁 विज्ञान पेपर",
-                data=file,
-                file_name="Science_SSC_Paper.pdf",
-                mime="application/pdf",
-                use_container_width=True
-            )
-    else:
-        st.caption("⏳ विज्ञान पीडीएफ लवकरच येत आहे...")
-
+# तुम्ही याच पद्धतीने खाली गणित (Maths) आणि विज्ञान (Science) चे सुद्धा बॉक्स बनवू शकता.
 st.markdown("---")
 
 # =========================================================================
