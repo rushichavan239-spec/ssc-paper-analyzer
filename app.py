@@ -70,8 +70,19 @@ st.markdown(
         font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
     }
 
-    .stApp {
-        background: var(--bg-canvas);
+    /* Force Background globally on all Streamlit container layers */
+    .stApp,
+    [data-testid="stAppViewContainer"],
+    [data-testid="stHeader"],
+    [data-testid="stMainBlockContainer"],
+    [data-testid="stMain"],
+    [data-testid="stBottomBlockContainer"],
+    body {
+        background-color: var(--bg-canvas) !important;
+    }
+
+    [data-testid="stHeader"] {
+        background-color: transparent !important;
     }
 
     .main .block-container {
